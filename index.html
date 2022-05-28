@@ -6,11 +6,28 @@
     <!-- <script src="https://checkouttoolkit.rapyd.net"></script> -->
     <script src="https://sandboxcheckouttoolkit.rapyd.net"></script>
     <script>
-        window.onload = function () {
-            
+        const data = [];
+
+        function addPayee(){
+            const email = document.getElementById('email').value;
+            if (email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) != null){
+                data.push(email);
+                initList();
+            }
+            else{
+                alert("invalid email");
+            }
+        }
+
+        function initList(){
+            const list  = document.getElementById('list');
+            list.innerHTML = data.map(i => `<li>${i}</li>`).join('');
+        }
+
+        window.onload = function () {            
+            initList();
             
             fetch("https://ipinfo.io/json")
-
 
             let checkout = new RapydCheckoutToolkit({
                 pay_button_text: "Click to pay",
@@ -29,12 +46,17 @@
         });
 
     </script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
-<body style="background-color: #f1f1f1; display: flex; align-items: center; flex-direction: column; margin: 0">
+<body>
     <h1>Rapyd-Fyre Social Checkout Toolkit</h1>
     
-    
+    <div id="paypal-requests">
+        <ul id="list"></ul>
+        <input type="text" id="email" name="email">
+        <button onclick="addPayee()">Submit</button>
+    </div>
     
     <div style="width: 500px" id="rapyd-checkout"></div>
 
