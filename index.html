@@ -7,10 +7,15 @@
     <script src="https://sandboxcheckouttoolkit.rapyd.net"></script>
     <script>
         window.onload = function () {
+            
+            
+            fetch("https://ipinfo.io/json")
+
+
             let checkout = new RapydCheckoutToolkit({
                 pay_button_text: "Click to pay",
                 pay_button_color: "red",
-                id: "checkout_be85dd9340e0a783de42cdab5f795675",
+                id: "checkout_129b5af92658fd07e260aa90096a3f56",
             });
             checkout.displayCheckout();
         }
