@@ -3,6 +3,8 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <title>Rapyd-Fyre Social Checkout Toolkit</title>
     <!-- <script src="https://checkouttoolkit.rapyd.net"></script> -->
     <script src="https://sandboxcheckouttoolkit.rapyd.net"></script>
@@ -11,19 +13,33 @@
 
         function addPayee(){
             const email = document.getElementById('email').value;
-            if (email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) != null){
+            if (email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) != null
+                && !data.includes(email)){
                 data.push(email);
                 document.getElementById('email').value = "";
                 initList();
             }
             else{
-                alert("invalid email");
+                alert("invalid or duplicate email");
             }
+        }
+
+        function removePayee(email){
+            data.splice(data.indexOf(email), 1);
+            initList();
         }
 
         function initList(){
             const list  = document.getElementById('list');
-            list.innerHTML = data.map(i => `<li>${i}</li>`).join('');
+            list.innerHTML = data.map(i => 
+                `<li>
+                    ${i}
+                    <span onclick="removePayee(this.id)" id="${i}" class="material-symbols-outlined">
+                        close
+                    </span>
+                    <input type="text" class="split" placeholder="$ Amount">
+                </li>`
+            ).join('');
         }
 
         window.onload = function () {            
@@ -56,7 +72,7 @@
     
     <div id="paypal-requests">
         <ul id="list"></ul>
-        <input type="text" id="email" name="email">
+        <input type="text" id="email">
         <button onclick="addPayee()" id="addbutton">Add Payee</button>
     </div>
     
