@@ -10,6 +10,7 @@
     <!-- <script src="https://checkouttoolkit.rapyd.net"></script> -->
     <script src="https://sandboxcheckouttoolkit.rapyd.net"></script>
     <script>
+        const auth = "";
         const emails = [];
 
         function addPayee(){
@@ -87,7 +88,7 @@
             let draft_invoice_url= base_url+'/v2/invoicing/invoices'
             let response = await fetch(draft_invoice_url, {
                 headers: {
-                    Authorization: "Bearer A21AAJ3kLbLhcHBB_Y-te6tDnHCQ47LgmG7FT5UgKzsOM6WfOkBLtR8uPvezWq0slGAmEnvmeVCGAkhX-6y9ZanPbn5eycoBA",
+                    Authorization: auth,
                     "Content-Type": "application/json",
                 },
                 method: "POST",
@@ -129,7 +130,7 @@
                     method: "POST",
                     body: _body,
                     headers: {
-                        Authorization: "Bearer A21AAJ3kLbLhcHBB_Y-te6tDnHCQ47LgmG7FT5UgKzsOM6WfOkBLtR8uPvezWq0slGAmEnvmeVCGAkhX-6y9ZanPbn5eycoBA",
+                        Authorization: auth,
                         "Content-Type": "application/json"
                     }
                     })
@@ -186,6 +187,7 @@
             })
             let auth_resp = await auth.json();
             console.log("access_token: " + auth_resp.access_token);
+            auth = auth_resp.access_token;
         }
 
         window.onload = function () {   
@@ -227,6 +229,7 @@
             // });
 
             //THIS IS WHERE sendInvoice() WOULD BE CALLED //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            sendInvoice();
             console.log(event.detail)
         });
 
