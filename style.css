@@ -1,4 +1,6 @@
 body {
+    /* background-color: rgb(214, 233, 249); */
+    
     background-color: white;
     display: flex;
     align-items: center;
@@ -13,7 +15,11 @@ ul {
     padding: 0px;
     margin-bottom: 15px;
 }
-
+/* .topnav {
+    background-color: #333;
+    overflow: hidden;
+  }
+   */
 li {
     color: rgb(29, 29, 29);
     background-color: rgb(238, 239, 245);
@@ -76,6 +82,19 @@ li {
     margin:0px;
     float:left;
     width: 70%;
+}
+#payInvoice {
+    border: none;
+	padding: 7px;
+	font: inherit;
+    font-size: 18px;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+	cursor: pointer;
+    color: white;
+    background-color: rgb(30,144,255);
+    margin-right:10px;
 }
 
 #splitSelect:hover{

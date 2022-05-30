@@ -2,6 +2,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -40,6 +41,8 @@
                 
             // let inv_num = await invoice_num_resp.json()
             // console.log(inv_num.invoice_number);
+            console.log(email)
+            email = JSON.stringify(email)
 
             let _body = {
                 
@@ -77,6 +80,7 @@
             
             }
             _body = JSON.stringify(_body)
+            console.log(_body)
 
             // clientId = "AUEHnmeKJEmeUW6-Bc-ndnBLehdgXeXkuVhW4n2NUtU6qlVYz4HvGeaQGD28fVscrm__fLV1dAx-iHVf";
             // secret = "EJeTJrH_3U1S_nBzVaJteD21PxY2VAjVii1O1EasMqSrbxMnMBnSQGr-zlSjT9v3pqzZogr9vaugkjKN";
@@ -84,7 +88,7 @@
             let draft_invoice_url= base_url+'/v2/invoicing/invoices'
             let response = await fetch(draft_invoice_url, {
                 headers: {
-                    Authorization: "Bearer A21AAIlIwM-iDLV6chyejibvaVMLC5giw9c2QaTR22nDgEbGWDhQg_n_B4Kj9CC-82sQWPJ9w3U-kKd6TPSdVLsCUHvtyirXQ",
+                    Authorization: "Bearer A21AAJ3kLbLhcHBB_Y-te6tDnHCQ47LgmG7FT5UgKzsOM6WfOkBLtR8uPvezWq0slGAmEnvmeVCGAkhX-6y9ZanPbn5eycoBA",
                     "Content-Type": "application/json",
                 },
                 method: "POST",
@@ -126,12 +130,14 @@
                     method: "POST",
                     body: _body,
                     headers: {
-                        Authorization: "Bearer A21AAIeB6SgrMub5cTnAXfZKkE9HRbBPHfLeNqchbDupvcV2Uy_3u0mgU7e7OupYsJhlFxOkaL4gSxZFybYA8DcppMvXkiL2w",
+                        Authorization: "Bearer A21AAJ3kLbLhcHBB_Y-te6tDnHCQ47LgmG7FT5UgKzsOM6WfOkBLtR8uPvezWq0slGAmEnvmeVCGAkhX-6y9ZanPbn5eycoBA",
                         "Content-Type": "application/json"
                     }
                     })
                 let send_inv_resp = await send_inv.json()
                 console.log(send_inv_resp)
+                window.confirm("Succesfully issued");
+
             }          
         }
 
@@ -211,7 +217,10 @@
         <button onclick="enableSplit()" id="splitSelect">Split with Paypal</button>
     </div>
     <br>
-    <button onclick="sendInvoice()" id="sendinvoice">Send Invoice</button>
+    <div id="sizing-box">
+        <button onclick="sendInvoice()" id="payInvoice">Send Invoice</button>
+    </div>
+
     
     <div style="width: 500px" id="rapyd-checkout"></div>
 
