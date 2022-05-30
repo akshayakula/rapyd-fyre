@@ -29,17 +29,58 @@ li {
 	padding: 7px;
 	font: inherit;
     font-size: 18px;
-    border-radius: 8px;
-    padding-left: 13px;
-    padding-right: 13px;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
 	cursor: pointer;
     color: white;
-    background-color: rgb(37, 193, 255);
+    background-color: rgb(75, 201, 70);
+    margin-right:10px;
 }
 
 #addbutton:hover{
     cursor: pointer;
-    background-color: rgb(35, 172, 226);
+    box-shadow: 0px 1px 1px rgb(224, 224, 224);
+}
+
+#splitDeselect {
+    border: none;
+	padding: 7px;
+	font: inherit;
+    font-size: 18px;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+	cursor: pointer;
+    color: white;
+    background-color: rgb(233, 74, 74);
+    margin:0px;
+}
+
+#splitDeselect:hover{
+    cursor: pointer;
+    box-shadow: 0px 1px 1px rgb(224, 224, 224);
+}
+
+#splitSelect {
+    border: none;
+	padding: 7px;
+	font: inherit;
+    font-size: 18px;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+	cursor: pointer;
+    color: white;
+    background-color: rgb(52, 177, 235);
+    margin:0px;
+    float:left;
+    width: 70%;
+}
+
+#splitSelect:hover{
+    cursor: pointer;
+    box-shadow: 0px 1px 1px rgb(224, 224, 224);
 }
 
 #email {
@@ -47,13 +88,18 @@ li {
 	font: inherit;
     font-size: 18px;
     margin-right: 10px;
-    margin-left: 25px;
-    width:60%;
+    width:50%;
 }
 
 #paypal-requests {
-    padding-left: 40px;
-    padding-right:20px;
+    padding-left: 20px;
+    width:500px;
+    box-sizing: border-box;
+    display: none;
+}
+
+#sizing-box{
+    padding-left: 20px;
     width:500px;
     box-sizing: border-box;
 }

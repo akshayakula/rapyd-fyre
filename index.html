@@ -105,7 +105,7 @@
 
             for(let index = 0; index < emails.length; index++){ //iterate over all the emails and split values chosen
 
-                if(parseFloat(splitVals[index].value) = NaN || parseFloat(splitVals[index].value) < 0){
+                if(parseFloat(splitVals[index].value) == NaN || parseFloat(splitVals[index].value) < 0){
                     splitVals[index].value = "0"; //set split amount to 0 by default if incorrect information is given
                 }
 
@@ -136,7 +136,7 @@
         }
 
         function removePayee(email){
-            data.splice(data.indexOf(email), 1);
+            emails.splice(emails.indexOf(email), 1);
             initList();
         }
 
@@ -151,6 +151,16 @@
                     <input type="text" class="split" placeholder="$ Amount">
                 </li>`
             ).join('');
+        }
+
+        function enableSplit(){
+            document.getElementById("paypal-requests").style.display = "inline-block";
+            document.getElementById("splitSelect").style.display = "none";
+        }
+
+        function disableSplit(){
+            document.getElementById("paypal-requests").style.display = "none";
+            document.getElementById("splitSelect").style.display = "inline-block";
         }
 
         window.onload = function () {            
@@ -195,10 +205,13 @@
         <ul id="list"></ul>
         <input type="text" id="email">
         <button onclick="addPayee()" id="addbutton">Add Payee</button>
+        <button onclick="disableSplit()" id="splitDeselect">Cancel Split</button>
     </div>
-    <div id="send invoice">
-        <button onclick="sendInvoice()" id="sendinvoice">Send Invoice</button>
+    <div id="sizing-box">
+        <button onclick="enableSplit()" id="splitSelect">Split with Paypal</button>
     </div>
+    <br>
+    <button onclick="sendInvoice()" id="sendinvoice">Send Invoice</button>
     
     <div style="width: 500px" id="rapyd-checkout"></div>
 
