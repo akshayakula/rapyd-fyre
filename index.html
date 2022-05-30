@@ -9,13 +9,13 @@
     <!-- <script src="https://checkouttoolkit.rapyd.net"></script> -->
     <script src="https://sandboxcheckouttoolkit.rapyd.net"></script>
     <script>
-        const data = [];
+        const emails = [];
 
         function addPayee(){
             const email = document.getElementById('email').value;
             if (email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) != null
-                && !data.includes(email)){
-                data.push(email);
+                && !emails.includes(email)){
+                emails.push(email);
                 document.getElementById('email').value = "";
                 initList();
             }
@@ -24,7 +24,7 @@
             }
         }
 
-        async function sendInvoiceDraft(){
+        async function sendInvoiceDraft(email, amount){
             // let base = 'https://api-m.sandbox.paypal.com'
             // let invoice_num= base+'/v2/invoicing/generate-next-invoice-number'
             // console.log(invoice_num)
@@ -51,11 +51,7 @@
                 primary_recipients: [
                     {
                         billing_info: {
-                            name: {
-                                given_name: "Stephanie",
-                                surname: "Meyers"
-                            },
-                            email_address: "asiddu2009@gmail.com"
+                            email_address: email
                         }
                     }
                 ],
@@ -66,7 +62,7 @@
                         quantity: "1",
                         unit_amount: {
                             currency_code: "USD",
-                            value: 50.00
+                            value: amount
                         },
                         tax: {
                             name: "Sales Tax",
@@ -103,43 +99,40 @@
 
         async function sendInvoice(){
             let base_url = 'https://api-m.sandbox.paypal.com'
-
             let draft_invoice_url= base_url+'/v2/invoicing/invoices'
-            id = await sendInvoiceDraft()
-            console.log(id)
-            let send_invoice_url = draft_invoice_url + "/" + id + "/send"
-
-            console.log(send_invoice_url)
-            let _body = {
-                subject: "<The subject of the email that is sent as a notification to the recipient.>",
-                note: "<A note to the payer.>",
-                send_to_recipient: true,
-                send_to_invoicer: true
-            }
-            _body = JSON.stringify(_body)
-
-            let send_inv = await fetch(send_invoice_url, {
-                method: "POST",
-                // body: _body,
-                headers: {
-                    Authorization: "Bearer A21AAIeB6SgrMub5cTnAXfZKkE9HRbBPHfLeNqchbDupvcV2Uy_3u0mgU7e7OupYsJhlFxOkaL4gSxZFybYA8DcppMvXkiL2w",
-                    "Content-Type": "application/json"
-                }
-                })
-            let send_inv_resp = await send_inv.json()
-            console.log(send_inv_resp)
             
-            return send_inv_resp.message;  
+            let splitVals = document.getElementsByClassName("split");
 
-                // .then(res => res.json())
-                // .then(data => obj = data)
-                // .then(() => console.log(obj))
-                // res = res.json()
-                // console.log(res)
-                // var json_draft = JSON.parse(res)     
-                // var id_parsed = json_draft.id
-                // console.log(id_parsed)
-           
+            for(let index = 0; index < emails.length; index++){ //iterate over all the emails and split values chosen
+
+                if(parseFloat(splitVals[index].value) = NaN || parseFloat(splitVals[index].value) < 0){
+                    splitVals[index].value = "0"; //set split amount to 0 by default if incorrect information is given
+                }
+
+                id = await sendInvoiceDraft(emails[index], parseFloat(splitVals[index].value));
+                console.log(id);
+                let send_invoice_url = draft_invoice_url + "/" + id + "/send"
+
+                console.log(send_invoice_url)
+                let _body = {
+                    subject: "<The subject of the email that is sent as a notification to the recipient.>",
+                    note: "<A note to the payer.>",
+                    send_to_recipient: true,
+                    send_to_invoicer: true
+                }
+                _body = JSON.stringify(_body)
+
+                let send_inv = await fetch(send_invoice_url, {
+                    method: "POST",
+                    body: _body,
+                    headers: {
+                        Authorization: "Bearer A21AAIeB6SgrMub5cTnAXfZKkE9HRbBPHfLeNqchbDupvcV2Uy_3u0mgU7e7OupYsJhlFxOkaL4gSxZFybYA8DcppMvXkiL2w",
+                        "Content-Type": "application/json"
+                    }
+                    })
+                let send_inv_resp = await send_inv.json()
+                console.log(send_inv_resp)
+            }          
         }
 
         function removePayee(email){
@@ -149,7 +142,7 @@
 
         function initList(){
             const list  = document.getElementById('list');
-            list.innerHTML = data.map(i => 
+            list.innerHTML = emails.map(i => 
                 `<li>
                     ${i}
                     <span onclick="removePayee(this.id)" id="${i}" class="material-symbols-outlined">
@@ -182,6 +175,8 @@
             // $.getJSON(draft_invoice, function(result){
             //     console.log(result)
             // });
+
+            //THIS IS WHERE sendInvoice() WOULD BE CALLED //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             console.log(event.detail)
         });
 
