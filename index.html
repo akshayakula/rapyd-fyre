@@ -12,6 +12,7 @@
     <script>
         const auth = "";
         const emails = [];
+        let checkout_id = localStorage.getItem("checkout_id")
 
         function addPayee(){
             const email = document.getElementById('email').value;
@@ -213,7 +214,7 @@
             let checkout = new RapydCheckoutToolkit({
                 pay_button_text: "Click to pay",
                 pay_button_color: "red",
-                id: "checkout_6cc952b719d7198e979b52ecbc69afb9",
+                id: checkout_id
             });
             checkout.displayCheckout();
         }

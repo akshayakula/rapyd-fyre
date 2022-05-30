@@ -15,6 +15,46 @@
 
     <title>Bikes.com - City 2022</title>
 
+    <script>
+        const checkout_id_array = [
+            "checkout_54020b31014f1e24e5e50dd0fb57b73a",
+            "checkout_8a1a837e06d9466a6fb72f8d591b2165",
+            "checkout_f3498c7b23c22d989eb415813c045655",
+            "checkout_1fb62a07a6bffd786b8f59a2bf9912b3",
+            "checkout_c3d045e41e801b82aaf6d4200037207a",
+            "checkout_0afb60c093c0146a6f29cba4cc7e0688",
+            "checkout_7226aacb6add797da0e84a2b59c7c891",
+            "checkout_24a2d41f766b268a3013319b35d4f932",
+            "checkout_a240515809c5376dae2ae310d30bdc89",
+            "checkout_8559cf883c6798245730786d6e47b1a7",
+            "checkout_74b20eb9a9f5738e3fd364f736d0953d",
+            "checkout_33571fcf84bba14a11562b1c72ed3e8c",
+            "checkout_c28d39b8ab7c4d2d1d8c700418dbec47",
+            "checkout_121536811488cad825984c6726718408",
+            "checkout_7b56aabc81376a0466cd929453172820",
+            "checkout_5a7d91e99d39536e235f3e286e636a8d",
+            "checkout_403627e6313332133a8b194d61197409",
+            "checkout_4127c9b6fd8124ea4fdc05f594d5d753",
+            "checkout_bd959ddea6f27a7f959782442df99768",
+            "checkout_02e199510529fa84d5cb69772c521409",
+            "checkout_e39161a2c227630c8ba11abc1c0b612c",
+            "checkout_33d76661e31243267210a9ecf4578c29",
+            "checkout_8f7997f31c71a892870260e77037589a",
+            "checkout_d75efab86739ff75f9115357e24b898d",
+            "checkout_3ef9a772b13b436735feba02bc9ef77b",
+            "checkout_46f54e647793ca3c1430911dbbe9304f",
+            "checkout_4a28349f30bc592458a7538948b49417",
+            "checkout_3259388a43666c3d0a8218cd7490a37a",
+            "checkout_181651991e0aa5ad889c33c578a32f84",
+            "checkout_300d267eabb98a04351e499ba6b8a821",
+            "checkout_ac0d0279d2a93acf1f1176fbbd78072b"
+        ]
+
+        window.onload = () => {
+            localStorage.setItem('checkout_id', checkout_id_array[Math.floor(Math.random() * checkout_id_array.length)]);
+        }
+    </script>
+
 </head>
 
 <body>
@@ -60,7 +100,9 @@
                     <div class="alert alert-warning" role="alert">
                         Shipping restrictions apply!
                     </div>
-                    <a role="button" class="btn btn-lg btn-custom" href="index.html">Buy Now</a>
+                    <form action="index.html">
+                        <input  class="btn btn-lg btn-custom" type="submit" value="Buy Now" />
+                    </form>
                     <a href="#" class="ms-2 link-secondary">Return policy</a>
                 </div>
             </div>
