@@ -24,6 +24,124 @@
             }
         }
 
+        async function sendInvoiceDraft(){
+            // let base = 'https://api-m.sandbox.paypal.com'
+            // let invoice_num= base+'/v2/invoicing/generate-next-invoice-number'
+            // console.log(invoice_num)
+            // let invoice_num_resp =  await fetch(invoice_num, {
+            //     method: "POST",
+
+            //     headers: {
+            //         Authorization: "Bearer A21AAIeB6SgrMub5cTnAXfZKkE9HRbBPHfLeNqchbDupvcV2Uy_3u0mgU7e7OupYsJhlFxOkaL4gSxZFybYA8DcppMvXkiL2w",
+            //         "Content-Type": "application/json"
+
+            //     }
+            //     })
+                
+            // let inv_num = await invoice_num_resp.json()
+            // console.log(inv_num.invoice_number);
+
+            let _body = {
+                
+                detail: {
+                    // "invoice_number": inv_num.invoice_number,
+                    currency_code: "USD"
+
+                },
+                primary_recipients: [
+                    {
+                        billing_info: {
+                            name: {
+                                given_name: "Stephanie",
+                                surname: "Meyers"
+                            },
+                            email_address: "asiddu2009@gmail.com"
+                        }
+                    }
+                ],
+                items: [
+                    {
+                        name: "Yoga Mat",
+                        description: "Elastic mat to practice yoga.",
+                        quantity: "1",
+                        unit_amount: {
+                            currency_code: "USD",
+                            value: 50.00
+                        },
+                        tax: {
+                            name: "Sales Tax",
+                            percent: 7.25
+                        },
+                        discount: {
+                            percent: 5
+                        },
+                        unit_of_measure: "QUANTITY"
+                    }
+                ]
+            
+            }
+            _body = JSON.stringify(_body)
+
+            // clientId = "AUEHnmeKJEmeUW6-Bc-ndnBLehdgXeXkuVhW4n2NUtU6qlVYz4HvGeaQGD28fVscrm__fLV1dAx-iHVf";
+            // secret = "EJeTJrH_3U1S_nBzVaJteD21PxY2VAjVii1O1EasMqSrbxMnMBnSQGr-zlSjT9v3pqzZogr9vaugkjKN";
+            let base_url = 'https://api-m.sandbox.paypal.com'
+            let draft_invoice_url= base_url+'/v2/invoicing/invoices'
+            let response = await fetch(draft_invoice_url, {
+                headers: {
+                    Authorization: "Bearer A21AAIlIwM-iDLV6chyejibvaVMLC5giw9c2QaTR22nDgEbGWDhQg_n_B4Kj9CC-82sQWPJ9w3U-kKd6TPSdVLsCUHvtyirXQ",
+                    "Content-Type": "application/json",
+                },
+                method: "POST",
+                body: _body
+                });
+            let data = await response.json();
+            let link = data.href;
+            let id = link.substring(link.lastIndexOf("/")+1);
+            return id;
+        }
+
+
+        async function sendInvoice(){
+            let base_url = 'https://api-m.sandbox.paypal.com'
+
+            let draft_invoice_url= base_url+'/v2/invoicing/invoices'
+            id = await sendInvoiceDraft()
+            console.log(id)
+            let send_invoice_url = draft_invoice_url + "/" + id + "/send"
+
+            console.log(send_invoice_url)
+            let _body = {
+                subject: "<The subject of the email that is sent as a notification to the recipient.>",
+                note: "<A note to the payer.>",
+                send_to_recipient: true,
+                send_to_invoicer: true
+            }
+            _body = JSON.stringify(_body)
+
+            let send_inv = await fetch(send_invoice_url, {
+                method: "POST",
+                // body: _body,
+                headers: {
+                    Authorization: "Bearer A21AAIeB6SgrMub5cTnAXfZKkE9HRbBPHfLeNqchbDupvcV2Uy_3u0mgU7e7OupYsJhlFxOkaL4gSxZFybYA8DcppMvXkiL2w",
+                    "Content-Type": "application/json"
+                }
+                })
+            let send_inv_resp = await send_inv.json()
+            console.log(send_inv_resp)
+            
+            return send_inv_resp.message;  
+
+                // .then(res => res.json())
+                // .then(data => obj = data)
+                // .then(() => console.log(obj))
+                // res = res.json()
+                // console.log(res)
+                // var json_draft = JSON.parse(res)     
+                // var id_parsed = json_draft.id
+                // console.log(id_parsed)
+           
+        }
+
         function removePayee(email){
             data.splice(data.indexOf(email), 1);
             initList();
@@ -45,7 +163,7 @@
         window.onload = function () {            
             initList();
             
-            fetch("https://ipinfo.io/json")
+            // fetch("https://ipinfo.io/json")
 
             let checkout = new RapydCheckoutToolkit({
                 pay_button_text: "Click to pay",
@@ -56,6 +174,14 @@
         }
 
         window.addEventListener('onCheckoutPaymentSuccess', function (event) {
+            console.log('hi')
+
+            // const base_url = 'https://api-m.sandbox.paypal.com'
+            // const draft_invoice = base_url+'/v2/invoicing/invoices'
+            // //const send_invoice = base_url + /v2/invoicing/invoices/INV2-LVXF-JJT2-QFBP-AJVQ/send
+            // $.getJSON(draft_invoice, function(result){
+            //     console.log(result)
+            // });
             console.log(event.detail)
         });
 
@@ -74,6 +200,9 @@
         <ul id="list"></ul>
         <input type="text" id="email">
         <button onclick="addPayee()" id="addbutton">Add Payee</button>
+    </div>
+    <div id="send invoice">
+        <button onclick="sendInvoice()" id="sendinvoice">Send Invoice</button>
     </div>
     
     <div style="width: 500px" id="rapyd-checkout"></div>
