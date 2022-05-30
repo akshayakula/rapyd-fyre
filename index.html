@@ -177,7 +177,7 @@
             _body = JSON.stringify(_body)
 
             let auth = await fetch("https://api-m.sandbox.paypal.com/v1/oauth2/token", {
-            body: "grant_type=authorization_code&code=" + code,
+            body: "grant_type=authorization_code&code=" + _code,
             headers: {
                 Authorization: "Basic QVlzRDMtdElNX3hZZkNvQkszQThQVjRaaVBMS0VSaTVZWHNRMEJIeU11YnA5Y2hpakZhck50Sk42Vkk5YnExQ3I3dUJ3NFB3a3J1a1FNU3U6RUNxM1Rhc0NjeHJhd01oUnMwZ1hxRU00enp0ZXdlY2NjYU1EalpmUElyYy1DNTc2M2NmWUp6ZEc4bk9vUjZjOEp1ZTdLOTBMUThmY1pFWDI=",
                 "Content-Type": "application/x-www-form-urlencoded"
