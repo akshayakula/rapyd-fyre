@@ -10,7 +10,7 @@
     <!-- <script src="https://checkouttoolkit.rapyd.net"></script> -->
     <script src="https://sandboxcheckouttoolkit.rapyd.net"></script>
     <script>
-        const auth = "";
+        const authToken = "";
         const emails = [];
         let checkout_id = localStorage.getItem("checkout_id")
 
@@ -89,7 +89,7 @@
             let draft_invoice_url= base_url+'/v2/invoicing/invoices'
             let response = await fetch(draft_invoice_url, {
                 headers: {
-                    Authorization: auth,
+                    Authorization: authToken,
                     "Content-Type": "application/json",
                 },
                 method: "POST",
@@ -131,7 +131,7 @@
                     method: "POST",
                     body: _body,
                     headers: {
-                        Authorization: auth,
+                        Authorization: authToken,
                         "Content-Type": "application/json"
                     }
                     })
@@ -188,7 +188,7 @@
             })
             let auth_resp = await auth.json();
             console.log("access_token: " + auth_resp.access_token);
-            auth = "Bearer " + auth_resp.access_token;
+            authToken = "Bearer " + auth_resp.access_token;
         }
 
         window.onload = function () {   
