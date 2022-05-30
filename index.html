@@ -176,10 +176,13 @@
                 }
             _body = JSON.stringify(_body)
 
+            let client_id = "AYsD3-tIM_xYfCoBK3A8PV4ZiPLKERi5YXsQ0BHyMubp9chijFarNtJN6VI9bq1Cr7uBw4PwkrukQMSu";
+            let secret = "ECq3TasCcxrawMhRs0gXqEM4zztewecccaMDjZfPIrc-C5763cfYJzdG8nOoR6c8Jue7K90LQ8fcZEX2";
+
             let auth = await fetch("https://api-m.sandbox.paypal.com/v1/oauth2/token", {
                 body: _body,
                 headers: {
-                    Authorization: "Basic {QVlzRDMtdElNX3hZZkNvQkszQThQVjRaaVBMS0VSaTVZWHNRMEJIeU11YnA5Y2hpakZhck50Sk42Vkk5YnExQ3I3dUJ3NFB3a3J1a1FNU3U=:RUNxM1Rhc0NjeHJhd01oUnMwZ1hxRU00enp0ZXdlY2NjYU1EalpmUElyYy1DNTc2M2NmWUp6ZEc4bk9vUjZjOEp1ZTdLOTBMUThmY1pFWDI=}",
+                    Authorization: "Basic {" + client_id + ":" + secret + "}",
                     "Content-Type": "application/json"
                 },
                 method: "POST"
@@ -190,7 +193,7 @@
 
         window.onload = function () {   
             
-            console.log("version1")
+            console.log("version2")
             initList();
 
             const queryString = window.location.search;
