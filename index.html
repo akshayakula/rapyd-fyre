@@ -169,15 +169,19 @@
             document.getElementById("splitSelect").style.display = "inline-block";
         }
 
-        window.onload = function () {            
+        window.onload = function () {   
+            
+            
             initList();
+
+            let checkout_url = ""
             
             // fetch("https://ipinfo.io/json")
 
             let checkout = new RapydCheckoutToolkit({
                 pay_button_text: "Click to pay",
                 pay_button_color: "red",
-                id: "checkout_5fc755bbc3b4e44ec202d4d5f2c6df4a",
+                id: "checkout_6cc952b719d7198e979b52ecbc69afb9",
             });
             checkout.displayCheckout();
         }
