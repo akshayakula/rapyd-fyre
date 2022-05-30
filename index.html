@@ -182,7 +182,7 @@
             let auth = await fetch("https://api-m.sandbox.paypal.com/v1/oauth2/token", {
                 body: _body,
                 headers: {
-                    Authorization: "Basic {" + client_id + ":" + secret + "}",
+                    Authorization: "Basic " + client_id + ":" + secret,
                     "Content-Type": "application/json"
                 },
                 method: "POST"
@@ -193,7 +193,7 @@
 
         window.onload = function () {   
             
-            console.log("version2")
+            console.log("version3");
             initList();
 
             const queryString = window.location.search;
