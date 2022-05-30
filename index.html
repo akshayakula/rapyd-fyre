@@ -179,7 +179,7 @@
                 method: "POST"
             })
             let auth_resp = await auth.json();
-            console.log(auth_resp.access_token);
+            console.log("access_token: " + auth_resp.access_token);
         }
 
         window.onload = function () {   
@@ -195,8 +195,6 @@
             if(code != null){
                 document.getElementById("paypal-requests").style.display = "inline-block";
                 document.getElementById("splitSelect").style.display = "none";
-            }
-            else{
                 authPaypal(code);
             }
 
