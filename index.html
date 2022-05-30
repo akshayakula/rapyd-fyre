@@ -82,8 +82,7 @@
             _body = JSON.stringify(_body)
             console.log(_body)
 
-            // clientId = "AUEHnmeKJEmeUW6-Bc-ndnBLehdgXeXkuVhW4n2NUtU6qlVYz4HvGeaQGD28fVscrm__fLV1dAx-iHVf";
-            // secret = "EJeTJrH_3U1S_nBzVaJteD21PxY2VAjVii1O1EasMqSrbxMnMBnSQGr-zlSjT9v3pqzZogr9vaugkjKN";
+            // clientId = "AYsD3-tIM_xYfCoBK3A8PV4ZiPLKERi5YXsQ0BHyMubp9chijFarNtJN6VI9bq1Cr7uBw4PwkrukQMSu";
             let base_url = 'https://api-m.sandbox.paypal.com'
             let draft_invoice_url= base_url+'/v2/invoicing/invoices'
             let response = await fetch(draft_invoice_url, {
@@ -160,8 +159,9 @@
         }
 
         function enableSplit(){
-            document.getElementById("paypal-requests").style.display = "inline-block";
-            document.getElementById("splitSelect").style.display = "none";
+            current = encodeURIComponent("https://rapyd-fyre.netlify.app/");
+            clientId = "AYsD3-tIM_xYfCoBK3A8PV4ZiPLKERi5YXsQ0BHyMubp9chijFarNtJN6VI9bq1Cr7uBw4PwkrukQMSu";
+            window.location.href = ("https://www.sandbox.paypal.com/connect/?flowEntry=static&client_id=" + clientId + "&response_type=code&scope=openid&redirect_uri=" + current)
         }
 
         function disableSplit(){
@@ -169,10 +169,36 @@
             document.getElementById("splitSelect").style.display = "inline-block";
         }
 
+        async function authPaypal(code){
+            let auth = await fetch("https://api-m.sandbox.paypal.com/v1/oauth2/token", {
+                body: "grant_type=authorization_code&code={" + code + "}",
+                headers: {
+                    Authorization: "Basic {QVlzRDMtdElNX3hZZkNvQkszQThQVjRaaVBMS0VSaTVZWHNRMEJIeU11YnA5Y2hpakZhck50Sk42Vkk5YnExQ3I3dUJ3NFB3a3J1a1FNU3U=:RUNxM1Rhc0NjeHJhd01oUnMwZ1hxRU00enp0ZXdlY2NjYU1EalpmUElyYy1DNTc2M2NmWUp6ZEc4bk9vUjZjOEp1ZTdLOTBMUThmY1pFWDI=}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                method: "POST"
+            })
+            let auth_resp = await auth.json();
+            console.log(auth_resp.access_token);
+        }
+
         window.onload = function () {   
             
             
             initList();
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const code = urlParams.get('code');
+            console.log(code);
+
+            if(code != null){
+                document.getElementById("paypal-requests").style.display = "inline-block";
+                document.getElementById("splitSelect").style.display = "none";
+            }
+            else{
+                authPaypal(code);
+            }
 
             let checkout_url = ""
             
@@ -223,11 +249,8 @@
     <br>
     <div id="sizing-box">
         <button onclick="sendInvoice()" id="payInvoice">Send Invoice</button>
-    </div>
-
-    
+    </div>    
     <div style="width: 500px" id="rapyd-checkout"></div>
-
 
 </body>
 
